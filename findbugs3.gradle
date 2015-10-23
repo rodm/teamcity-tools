@@ -79,6 +79,7 @@ teamcity {
             description = 'FindBugs 3.0 repackaged for TeamCity'
             downloadUrl = 'https://github.com/rodm/teamcity-tools/'
             email = 'rod.n.mackenzie@gmail.com'
+            vendorUrl = 'https://github.com/rodm/teamcity-tools/'
         }
     }
 
