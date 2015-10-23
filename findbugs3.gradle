@@ -1,0 +1,88 @@
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath group: 'com.github.rodm', name: 'gradle-teamcity-plugin', version: '0.8'
+    }
+}
+
+apply plugin: 'com.github.rodm.teamcity-agent'
+apply plugin: 'com.github.rodm.teamcity-server'
+
+
+group = 'com.github.rodm.teamcity'
+version = '1.0'
+
+ext {
+    teamcityVersion = '8.1.5'
+    teamcityDir = "$rootDir/servers/TeamCity-${teamcityVersion}"
+    teamcityDataDir = "$rootDir/data/" + (teamcityVersion =~ /(\d+\.\d+).*/)[0][1]
+    teamcityJavaHome = System.properties['java.home']
+}
+
+repositories {
+    ivy {
+        artifactPattern 'https://sourceforge.net/projects/[organization]/files/[organization]/[revision]/[module]-[revision].[ext]/download'
+    }
+}
+
+configurations {
+    findbugs
+}
+
+dependencies {
+    findbugs group: 'findbugs', name: 'findbugs-noUpdateChecks', version: '3.0.1', ext: 'zip'
+}
+
+agentPlugin {
+    baseName = 'findbugs3_0'
+    version = ''
+}
+
+serverPlugin {
+    baseName = 'findbugs3_0-tool'
+    version = ''
+}
+
+teamcity {
+    version = teamcityVersion
+
+    agent {
+        descriptor {
+            toolDeployment {
+                executableFiles {
+                    include 'bin/findbugs'
+                }
+            }
+        }
+
+        files {
+            from(zipTree(configurations.findbugs.singleFile)) {
+                includeEmptyDirs = false
+                eachFile { file ->
+                    file.relativePath = new RelativePath(file.relativePath.endsWithFile, file.relativePath.segments[1..-1] as String[])
+                }
+            }
+        }
+    }
+
+    server {
+        descriptor {
+            name = 'findbugs3_0-tool'
+            displayName = 'Repackaged FindBugs 3.0'
+            version = project.version
+            vendorName = 'rodm'
+            description = 'FindBugs 3.0 repackaged for TeamCity'
+            downloadUrl = 'https://github.com/rodm/teamcity-tools/'
+            email = 'rod.n.mackenzie@gmail.com'
+        }
+    }
+
+    homeDir = file(teamcityDir)
+    dataDir = file(teamcityDataDir)
+    javaHome = file(teamcityJavaHome)
+}
