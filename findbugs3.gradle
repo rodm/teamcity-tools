@@ -1,7 +1,7 @@
 
 plugins {
-    id 'com.github.rodm.teamcity-agent' version '0.8.3'
-    id 'com.github.rodm.teamcity-server' version '0.8.3'
+    id 'com.github.rodm.teamcity-agent' version '0.8.4'
+    id 'com.github.rodm.teamcity-server' version '0.8.4'
 }
 
 group = 'com.github.rodm.teamcity'
@@ -66,12 +66,12 @@ teamcity {
             email = 'rod.n.mackenzie@gmail.com'
             vendorUrl = 'https://github.com/rodm/teamcity-tools/'
         }
-    }
 
-    environments {
-        teamcity {
-            version = '9.1.6'
-            homeDir = file("$serversDir/TeamCity-${version}")
+        environments {
+            teamcity {
+                version = '9.1.6'
+                homeDir = file("$serversDir/TeamCity-${version}")
+            }
         }
     }
 }
