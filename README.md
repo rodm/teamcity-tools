@@ -30,3 +30,21 @@ To build the tool run:
     
 To deploy the tool copy the file `findbugs3_0-tool.zip` in the `build/distributions` directory to the
 TeamCity server's plugin directory. 
+
+### PhantomJS 2.1 tool
+
+The `phantomjs.gradle` build script downloads PhantomJS 2.1.1 for Windows, Linux and Mac OS X and repacks them into
+a TeamCity tool. The tool can be used in a build configuration using the parameter `teamcity.tool.phantomjs`. The
+phantomjs binaries are available under the tool directory in the following paths
+
+    bin/linux-i686/phantomjs
+    bin/linux-x86_64/phantomjs
+    bin/macosx/phantomjs
+    bin/windows/phantomjs.exe
+
+To build the tool run:
+
+    ./gradlew -b phantomjs.gradle clean build
+
+To deploy the tool copy the file `phantomjs-tool.zip` in the `build/distributions` directory to the
+TeamCity server's plugin directory.

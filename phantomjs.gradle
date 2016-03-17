@@ -1,0 +1,103 @@
+
+plugins {
+    id 'com.github.rodm.teamcity-agent' version '0.8.4'
+    id 'com.github.rodm.teamcity-server' version '0.8.4'
+}
+
+group = 'com.github.rodm.teamcity'
+version = '1.0'
+
+ext {
+    serversDir = project.hasProperty('servers.dir') ? property('servers.dir') : "$rootDir/servers"
+}
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/rodm/test"
+    }
+}
+
+configurations {
+    phantomjs
+}
+
+dependencies {
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'linux-x86_64', ext: 'tar.bz2'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'linux-i686', ext: 'tar.bz2'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'windows', ext: 'zip'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'macosx', ext: 'zip'
+}
+
+agentPlugin {
+    baseName = 'phantomjs'
+    version = ''
+}
+
+serverPlugin {
+    baseName = 'phantomjs-tool'
+    version = ''
+}
+
+def fileFilter = {
+    includeEmptyDirs = false
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude { details -> details.entry.name.contains('/examples/') }
+    eachFile { file ->
+        if (file.path.endsWith('linux-x86_64/bin/phantomjs')) {
+            file.path = 'bin/linux-x86_64/phantomjs'
+        } else if (file.path.endsWith('linux-i686/bin/phantomjs')) {
+            file.path = 'bin/linux-i686/phantomjs'
+        } else if (file.path.endsWith('phantomjs.exe')) {
+            file.path = 'bin/windows/phantomjs.exe'
+        } else if (file.path.endsWith('macosx/bin/phantomjs')) {
+            file.path = 'bin/macosx/phantomjs'
+        } else {
+            file.relativePath = new RelativePath(file.relativePath.endsWithFile, file.relativePath.segments[1..-1] as String[])
+        }
+    }
+}
+
+teamcity {
+    agent {
+        descriptor {
+            toolDeployment {
+                executableFiles {
+                    include 'bin/linux-x86_64/phantomjs'
+                    include 'bin/linux-i686/phantomjs'
+                    include 'bin/macosx/phantomjs'
+                }
+            }
+        }
+
+        files {
+            configurations.phantomjs.collect { artifact ->
+                if (artifact.name.endsWith('.tar.bz2')) {
+                    from(tarTree(artifact), fileFilter)
+                }
+                if (artifact.name.endsWith('.zip')) {
+                    from(zipTree(artifact), fileFilter)
+                }
+            }
+        }
+    }
+
+    server {
+        descriptor {
+            name = 'phantomjs-tool'
+            displayName = 'Repacked PhantomJS 2.1'
+            version = project.version
+            vendorName = 'rodm'
+            description = 'PhantomJS 2.1 repackaged for TeamCity'
+            downloadUrl = 'https://github.com/rodm/teamcity-tools/'
+            email = 'rod.n.mackenzie@gmail.com'
+            vendorUrl = 'https://github.com/rodm/teamcity-tools/'
+        }
+
+        environments {
+            teamcity {
+                version = '9.1.6'
+                homeDir = file("$serversDir/TeamCity-${version}")
+            }
+        }
+    }
+}
