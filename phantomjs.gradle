@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.github.rodm.teamcity'
-version = '1.0'
+version = '2.1.1'
 
 ext {
     serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
@@ -22,10 +22,10 @@ configurations {
 }
 
 dependencies {
-    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'linux-x86_64', ext: 'tar.bz2'
-    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'linux-i686', ext: 'tar.bz2'
-    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'windows', ext: 'zip'
-    phantomjs group: 'phantomjs', name: 'phantomjs', version: '2.1.1', classifier: 'macosx', ext: 'zip'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: version, classifier: 'linux-x86_64', ext: 'tar.bz2'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: version, classifier: 'linux-i686', ext: 'tar.bz2'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: version, classifier: 'windows', ext: 'zip'
+    phantomjs group: 'phantomjs', name: 'phantomjs', version: version, classifier: 'macosx', ext: 'zip'
 }
 
 agentPlugin {

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.github.rodm.teamcity'
-version = '1.0'
+version = '3.0.1'
 
 ext {
     serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
@@ -22,7 +22,7 @@ configurations {
 }
 
 dependencies {
-    findbugs group: 'findbugs', name: 'findbugs-noUpdateChecks', version: '3.0.1', ext: 'zip'
+    findbugs group: 'findbugs', name: 'findbugs-noUpdateChecks', version: version, ext: 'zip'
 }
 
 agentPlugin {
@@ -58,7 +58,7 @@ teamcity {
     server {
         descriptor {
             name = 'findbugs3_0-tool'
-            displayName = 'Repackaged FindBugs 3.0'
+            displayName = 'Repacked FindBugs 3.0'
             version = project.version
             vendorName = 'rodm'
             description = 'FindBugs 3.0 repackaged for TeamCity'
