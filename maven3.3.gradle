@@ -1,7 +1,7 @@
 
 plugins {
-    id 'com.github.rodm.teamcity-agent' version '0.8.4'
-    id 'com.github.rodm.teamcity-server' version '0.8.4'
+    id 'com.github.rodm.teamcity-agent' version '0.9.1'
+    id 'com.github.rodm.teamcity-server' version '0.9.1'
 }
 
 group = 'com.github.rodm.teamcity'
