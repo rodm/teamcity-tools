@@ -8,7 +8,7 @@ group = 'com.github.rodm.teamcity'
 version = '1.0.1'
 
 ext {
-    serversDir = project.hasProperty('servers.dir') ? property('servers.dir') : "$rootDir/servers"
+    serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
 }
 
 repositories {
