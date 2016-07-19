@@ -3,6 +3,8 @@
 
 ### Maven 3.3 tool
 
+[![Download](https://api.bintray.com/packages/rodm/teamcity-plugins/maven3_3-tool/images/download.svg)](https://bintray.com/rodm/teamcity-plugins/maven3_3-tool/_latestVersion)
+
 The `maven3.3.gradle` build script downloads Apache Maven 3.3 and repacks it into a TeamCity tool for
 deployment to the build agents. The tool can be used in a build configuration using the parameter
 `teamcity.tool.maven3_3`.
@@ -21,6 +23,8 @@ TeamCity server's plugin directory.
 
 ### FindBugs 3.0 tool
 
+[![Download](https://api.bintray.com/packages/rodm/teamcity-plugins/findbugs3_0-tool/images/download.svg)](https://bintray.com/rodm/teamcity-plugins/findbugs3_0-tool/_latestVersion)
+
 The `findbugs3.gradle` build script downloads FindBugs 3.0 and repacks it into a TeamCity tool. The tool
 can be used in a build configuration using the parameter `teamcity.tool.findbugs3_0`.
 
@@ -32,6 +36,8 @@ To deploy the tool copy the file `findbugs3_0-tool.zip` in the `build/distributi
 TeamCity server's plugin directory. 
 
 ### PhantomJS 2.1 tool
+
+[![Download](https://api.bintray.com/packages/rodm/teamcity-plugins/phantomjs-tool/images/download.svg)](https://bintray.com/rodm/teamcity-plugins/phantomjs-tool/_latestVersion)
 
 The `phantomjs.gradle` build script downloads PhantomJS 2.1.1 for Windows, Linux and Mac OS X and repacks them into
 a TeamCity tool. The tool can be used in a build configuration using the parameter `teamcity.tool.phantomjs`. The
