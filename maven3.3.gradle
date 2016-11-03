@@ -70,10 +70,14 @@ teamcity {
             vendorUrl = 'https://github.com/rodm/teamcity-tools/'
         }
 
+        baseHomeDir = project.serversDir
+
         environments {
-            teamcity {
-                version = '9.1.6'
-                homeDir = file("$serversDir/TeamCity-${version}")
+            teamcity8 {
+                version = '8.1.5'
+            }
+            teamcity9 {
+                version = '9.1.7'
             }
         }
     }
