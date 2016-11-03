@@ -1,8 +1,8 @@
 
 plugins {
     id 'org.gradle.maven-publish'
-    id 'com.github.rodm.teamcity-agent' version '0.9.1'
-    id 'com.github.rodm.teamcity-server' version '0.9.1'
+    id 'com.github.rodm.teamcity-agent' version '0.10'
+    id 'com.github.rodm.teamcity-server' version '0.10'
 }
 
 group = 'com.github.rodm.teamcity'
