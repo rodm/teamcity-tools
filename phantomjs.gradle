@@ -3,12 +3,17 @@ plugins {
     id 'org.gradle.maven-publish'
     id 'com.github.rodm.teamcity-agent' version '0.10'
     id 'com.github.rodm.teamcity-server' version '0.10'
+    id 'com.jfrog.bintray' version '1.7.2'
 }
 
 group = 'com.github.rodm.teamcity'
 version = '2.1.1'
 
 ext {
+    toolName = 'phantomjs-tool'
+    toolUrl = 'https://github.com/rodm/teamcity-tools'
+    toolDescription = 'PhantomJS 2.1 repackaged for TeamCity'
+
     serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
 
     repositoryUrl = findProperty('repositoryUrl') ?: 'http://localhost:8080'
@@ -34,12 +39,12 @@ dependencies {
 }
 
 agentPlugin {
-    baseName = 'phantomjs'
+    baseName = project.toolName.replace('-tool', '')
     version = ''
 }
 
 serverPlugin {
-    baseName = 'phantomjs-tool'
+    baseName = project.toolName
     version = ''
 }
 
@@ -88,14 +93,14 @@ teamcity {
 
     server {
         descriptor {
-            name = 'phantomjs-tool'
+            name = project.toolName
             displayName = 'Repacked PhantomJS 2.1'
             version = project.version
             vendorName = 'rodm'
-            description = 'PhantomJS 2.1 repackaged for TeamCity'
-            downloadUrl = 'https://github.com/rodm/teamcity-tools/'
+            vendorUrl = project.toolUrl
+            description = project.toolDescription
+            downloadUrl = project.toolUrl
             email = 'rod.n.mackenzie@gmail.com'
-            vendorUrl = 'https://github.com/rodm/teamcity-tools/'
         }
 
         baseHomeDir = project.serversDir
@@ -121,7 +126,7 @@ artifacts {
 publishing {
     publications {
         plugin(MavenPublication) {
-            artifactId 'phantomjs-tool'
+            artifactId project.toolName
             artifact serverPlugin
         }
     }
@@ -132,6 +137,36 @@ publishing {
                 username repositoryUsername
                 password repositoryPassword
             }
+        }
+    }
+}
+
+bintray {
+    user = findProperty('bintray.user')
+    key = findProperty('bintray.key')
+
+    filesSpec {
+        from "${buildDir}/distributions"
+        into project.version
+        include '*-tool.zip'
+    }
+
+    dryRun = false
+    publish = true
+    override = false
+
+    pkg {
+        repo = 'teamcity-plugins-generic'
+        name = project.toolName
+        desc = project.toolDescription
+        websiteUrl = project.toolUrl
+        issueTrackerUrl = "${project.toolUrl}/issues"
+        vcsUrl = "${project.toolUrl}.git"
+        licenses = ['Apache-2.0']
+        labels = ['teamcity', 'plugin', 'tool', 'phantomjs']
+
+        version {
+            name = project.version
         }
     }
 }
