@@ -16,8 +16,8 @@ property to the build configuration: `system.maven.multiModuleProjectDirectory` 
  
 To build the tool run:
 
-    ./gradlew -b maven3.3.gradle clean build
-    
+    ./gradlew repackageMaven3_3
+
 To deploy the tool copy the file `maven3_3-tool.zip` in the `build/distributions` directory to the
 TeamCity server's plugin directory. 
 
@@ -30,7 +30,7 @@ can be used in a build configuration using the parameter `teamcity.tool.findbugs
 
 To build the tool run:
 
-    ./gradlew -b findbugs3.gradle clean build
+    ./gradlew repackageFindBugs3_0
     
 To deploy the tool copy the file `findbugs3_0-tool.zip` in the `build/distributions` directory to the
 TeamCity server's plugin directory. 
@@ -50,7 +50,7 @@ phantomjs binaries are available under the tool directory in the following paths
 
 To build the tool run:
 
-    ./gradlew -b phantomjs.gradle clean build
+    ./gradlew repackagePhantomJS2_1
 
 To deploy the tool copy the file `phantomjs-tool.zip` in the `build/distributions` directory to the
 TeamCity server's plugin directory.
