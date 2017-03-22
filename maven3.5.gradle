@@ -1,0 +1,144 @@
+
+plugins {
+    id 'org.gradle.maven-publish'
+    id 'com.github.rodm.teamcity-agent' version '0.11'
+    id 'com.github.rodm.teamcity-server' version '0.11'
+    id 'com.jfrog.bintray' version '1.7.3'
+}
+
+group = 'com.github.rodm.teamcity'
+version = '3.5.0-alpha-1'
+
+ext {
+    toolName = 'maven3_5-tool'
+    toolUrl = 'https://github.com/rodm/teamcity-tools'
+    toolDescription = 'Apache Maven 3.5 repackaged for TeamCity'
+
+    serversDir = findProperty('servers.dir') ?: "$rootDir/servers"
+
+    repositoryUrl = findProperty('repositoryUrl') ?: 'http://localhost:8080'
+    repositoryUsername = findProperty('repositoryUsername') ?: ''
+    repositoryPassword = findProperty('repositoryPassword') ?: ''
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    maven
+}
+
+dependencies {
+    maven group: 'org.apache.maven', name: 'apache-maven', version: version, classifier: 'bin', ext: 'zip'
+}
+
+agentPlugin {
+    baseName = project.toolName.replace('-tool', '')
+    version = ''
+}
+
+serverPlugin {
+    baseName = project.toolName
+    version = ''
+}
+
+teamcity {
+    agent {
+        descriptor {
+            toolDeployment {
+                executableFiles {
+                    include 'bin/mvn'
+                }
+            }
+        }
+
+        files {
+            from(zipTree(configurations.maven.singleFile)) {
+                includeEmptyDirs = false
+                eachFile { file ->
+                    file.relativePath = new RelativePath(file.relativePath.endsWithFile, file.relativePath.segments[1..-1] as String[])
+                }
+            }
+        }
+    }
+
+    server {
+        descriptor {
+            name = project.toolName
+            displayName = 'Repacked Maven 3.5'
+            version = project.version
+            vendorName = 'rodm'
+            vendorUrl = project.toolUrl
+            description = project.toolDescription
+            downloadUrl = project.toolUrl
+            email = 'rod.n.mackenzie@gmail.com'
+        }
+
+        baseHomeDir = project.serversDir
+
+        environments {
+            teamcity8 {
+                version = '8.1.5'
+            }
+            teamcity9 {
+                version = '9.1.7'
+            }
+            teamcity10 {
+                version = '10.0.5'
+            }
+        }
+    }
+}
+
+artifacts {
+    archives serverPlugin
+}
+
+publishing {
+    publications {
+        plugin(MavenPublication) {
+            artifactId project.toolName
+            artifact serverPlugin
+        }
+    }
+    repositories {
+        maven {
+            url repositoryUrl
+            credentials {
+                username repositoryUsername
+                password repositoryPassword
+            }
+        }
+    }
+}
+
+bintray {
+    user = findProperty('bintray.user')
+    key = findProperty('bintray.key')
+
+    filesSpec {
+        from "${buildDir}/distributions"
+        into project.version
+        include '*-tool.zip'
+    }
+
+    dryRun = false
+    publish = true
+    override = false
+
+    pkg {
+        repo = 'teamcity-plugins-generic'
+        name = project.toolName
+        desc = project.toolDescription
+        websiteUrl = project.toolUrl
+        issueTrackerUrl = "${project.toolUrl}/issues"
+        vcsUrl = "${project.toolUrl}.git"
+        licenses = ['Apache-2.0']
+        labels = ['teamcity', 'plugin', 'tool', 'maven']
+
+        version {
+            name = project.version
+        }
+    }
+}

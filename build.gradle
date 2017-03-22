@@ -4,6 +4,11 @@ task repackageMaven3_3(type: GradleBuild) {
     tasks = ['clean', 'build']
 }
 
+task repackageMaven3_5(type: GradleBuild) {
+    buildFile = 'maven3.5.gradle'
+    tasks = ['clean', 'build']
+}
+
 task repackageFindBugs3_0(type: GradleBuild) {
     buildFile = 'findbugs3.gradle'
     tasks = ['clean', 'build']

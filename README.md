@@ -21,6 +21,21 @@ To build the tool run:
 To deploy the tool copy the file `maven3_3-tool.zip` in the `build/distributions` directory to the
 TeamCity server's plugin directory. 
 
+### Maven 3.5 tool
+
+[![Download](https://api.bintray.com/packages/rodm/teamcity-plugins-generic/maven3_5-tool/images/download.svg)](https://bintray.com/rodm/teamcity-plugins-generic/maven3_5-tool/_latestVersion)
+
+The `maven3.5.gradle` build script downloads Apache Maven 3.5.0-alpha-1 and repacks it into a TeamCity tool for
+deployment to the build agents. The tool can be used in a build configuration using the parameter
+`teamcity.tool.maven3_5`.
+ 
+To build the tool run:
+
+    ./gradlew repackageMaven3_5
+
+To deploy the tool copy the file `maven3_5-tool.zip` in the `build/distributions` directory to the
+TeamCity server's plugin directory. 
+
 ### FindBugs 3.0 tool
 
 [![Download](https://api.bintray.com/packages/rodm/teamcity-plugins-generic/findbugs3_0-tool/images/download.svg)](https://bintray.com/rodm/teamcity-plugins-generic/findbugs3_0-tool/_latestVersion)
