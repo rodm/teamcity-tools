@@ -25,7 +25,7 @@ TeamCity server's plugin directory.
 
 [![Download](https://api.bintray.com/packages/rodm/teamcity-plugins-generic/maven3_5-tool/images/download.svg)](https://bintray.com/rodm/teamcity-plugins-generic/maven3_5-tool/_latestVersion)
 
-The `maven3.5.gradle` build script downloads Apache Maven 3.5.0-alpha-1 and repacks it into a TeamCity tool for
+The `maven3.5.gradle` build script downloads Apache Maven 3.5.0 and repacks it into a TeamCity tool for
 deployment to the build agents. The tool can be used in a build configuration using the parameter
 `teamcity.tool.maven3_5`.
  

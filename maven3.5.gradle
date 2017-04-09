@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.github.rodm.teamcity'
-version = '3.5.0-alpha-1'
+version = '3.5.0'
 
 ext {
     toolName = 'maven3_5-tool'
